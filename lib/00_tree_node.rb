@@ -39,11 +39,30 @@ class PolyTreeNode
         if @parent != nil
             @parent.children.delete(self)
         end
-
         @parent = parent
         if parent!= nil && !parent.children.include?(self)   
             parent.children << self
         end
+    end
+
+    def add_child(node)
+        node.parent = self
+    end
+
+    def remove_child(node)
+    
+    raise "Node is root" if node.parent == nil #checks if node is root
+
+        node.parent = nil
+    end
+
+    def dfs(target_value)
+        #finds value
+        return self if self.value == target_value
+
+        
+
+
 
     end
 
@@ -51,17 +70,19 @@ class PolyTreeNode
        node.parent = self 
     end 
 
-    def remove_child(node)
-        if node.parent == nil
-        raise "error"
-        end 
-        node.parent = nil
-    end 
+    def bfs(target_value)
+        queue = [self]
+        while !queue.empty?
+            current_node = queue.pop
+            if current_node.value == target_value
+                return current_node
+            else 
+                current_node.children.each { |child|
+                    queue.unshift(child)
+                }
+            end
+        end
+        return nil
+    end
 
-   
 end
-
-
-
-
-
