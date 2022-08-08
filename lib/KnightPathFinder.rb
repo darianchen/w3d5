@@ -43,7 +43,8 @@ class KnightPathFinder
         new_positions
     end
 
-    def find_path(position)
+    def find_path(end_pos)
+        end_pos = root_node.dfs 
 
     end
 
@@ -63,7 +64,6 @@ class KnightPathFinder
         end
         #valid moves and new move positions
     end
-
 
 
 
