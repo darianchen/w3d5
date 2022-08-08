@@ -1,7 +1,6 @@
 require_relative "00_tree_node"
 class KnightPathFinder
-    attr_reader :start_pos
-
+    attr_reader :start_pos, :root_node
 
     MOVES = [
         [-2, -1],
@@ -20,7 +19,6 @@ class KnightPathFinder
 
         MOVES.each do |dx, dy|
             new_pos =[curr_x+ dx,curr_y + dy]
-            
             if new_pos.all? { |num| num.between?(0,7) }
                 valid_moves << new_pos
             end
@@ -36,25 +34,31 @@ class KnightPathFinder
     end
 
     def new_move_positions(pos)
-        new_positions = []
-        @considered_positions.each do |pos|
-            new_positions << pos if KnightPathFinder.valid_moves(pos) && @considered_positions.include?(pos)
+        valid_moves = KnightPathFinder.valid_moves(pos)
+        new_moves = []
+        valid_moves.each do |position|
+            if !@considered_positions.include?(position)
+                @considered_positions << position
+                new_moves << position
+            end
         end
-        new_positions
+        new_moves
     end
 
     def find_path(end_pos)
-        end_node = root_node.dfs(end_pos)
-        end_node
+        end_node = @root_node.bfs(end_pos)
+        trace_path_back(end_node)
     end
 
-    def trace_path_back
-        values = []
-        curr_node = find_path(end_pos)
-        until  curr_node.value == [0, 0]
-            values << curr_node.value
+    def trace_path_back(end_node)
+        values = [end_node.value]
+        curr_node = end_node
+
+        until curr_node.value == start_pos
             curr_node = curr_node.parent
+            values.unshift(curr_node.value)
         end 
+
         values 
     end 
 
@@ -62,7 +66,6 @@ class KnightPathFinder
 
     def build_move_tree
         nodes = [@root_node] 
-       
         until nodes.empty?
             curr_node = nodes.shift
             curr_pos = curr_node.value
@@ -80,3 +83,6 @@ class KnightPathFinder
 end
 
 kpf = KnightPathFinder.new([0, 0])
+kpf.build_move_tree
+p kpf.find_path([7,6])
+# p kpf.trace_path_back

@@ -68,7 +68,11 @@ class PolyTreeNode
 
     def add_child(node)
        node.parent = self 
-    end 
+    end
+
+    def inspect
+        return @value
+    end
 
     def bfs(target_value)
         queue = [self]
