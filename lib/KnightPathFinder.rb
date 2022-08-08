@@ -2,6 +2,7 @@ require_relative "00_tree_node"
 class KnightPathFinder
     attr_reader :start_pos
 
+
     MOVES = [
         [-2, -1],
         [-2,  1],
@@ -31,9 +32,7 @@ class KnightPathFinder
     def initialize(start_pos)
         @start_pos = start_pos
         @considered_positions = [start_pos]
-
-
-
+        @root_node = PolyTreeNode.new(start_pos)
     end
 
     def new_move_positions(pos)
@@ -49,9 +48,10 @@ class KnightPathFinder
     end
 
 
+
     def build_move_tree
-        self.root_node = PolyTreeNode.new(start_pos)
-        
+        nodes = [@root_node] 
+        curr_node = nodes.shift
 
 
         
@@ -60,6 +60,3 @@ class KnightPathFinder
 end
 
 kpf = KnightPathFinder.new([0, 0])
-
-root = PolyTreeNode.new([0,0])
-puts node
