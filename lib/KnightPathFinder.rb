@@ -51,11 +51,21 @@ class KnightPathFinder
 
     def build_move_tree
         nodes = [@root_node] 
-        curr_node = nodes.shift
-
-
-        
+       
+        until nodes.empty?
+            curr_node = nodes.shift
+            curr_pos = curr_node.value
+            new_move_positions(curr_pos).each do |pos|
+                new_node = PolyTreeNode.new(pos)
+                curr_node.add_child(new_node)
+                nodes << new_node
+            end
+        end
+        #valid moves and new move positions
     end
+
+
+
 
 end
 
